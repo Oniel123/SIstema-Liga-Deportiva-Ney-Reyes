@@ -1,0 +1,68 @@
+.liga-shell {
+  display: flex;
+  min-height: 100%;
+}
+
+.liga-side {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--liga-navy);
+  color: #fff;
+  padding: 24px 18px;
+}
+
+.liga-brand {
+  font-size: 17px;
+  margin: 0 0 28px;
+  line-height: 1.3;
+
+  span {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    color: #9FB3D4;
+    font-family: var(--liga-font-body);
+    margin-top: 2px;
+  }
+}
+
+.liga-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.liga-navitem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #C4D0E6;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 18px;
+  }
+
+  &.active {
+    background: var(--liga-red);
+    color: #fff;
+  }
+
+  &:hover:not(.active):not(.liga-disabled) {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &.liga-disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+}
+
+.liga-main {
+  flex: 1;
+  padding: 28px 32px;
+  min-width: 0;
+}

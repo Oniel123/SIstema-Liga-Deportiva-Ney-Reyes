@@ -1,0 +1,61 @@
+<header class="liga-header">
+  <h1 class="liga-display">Equipos</h1>
+  <button class="liga-btn" (click)="toggleForm()">
+    <ion-icon [name]="mostrarForm ? 'close-outline' : 'add-outline'"></ion-icon>
+    {{ mostrarForm ? 'Cancelar' : 'Nuevo equipo' }}
+  </button>
+</header>
+
+<div class="liga-tablewrap liga-formcard" *ngIf="mostrarForm">
+  <div class="liga-field">
+    <label>Nombre del equipo</label>
+    <input type="text" [(ngModel)]="form.nombre" placeholder="Ej: Tigres" />
+  </div>
+  <div class="liga-field">
+    <label>Categoría</label>
+    <select [(ngModel)]="form.categoria">
+      <option [ngValue]="null">Selecciona una categoría</option>
+      <option *ngFor="let cat of categorias" [ngValue]="cat.id">Categoría {{ cat.nombre }}</option>
+    </select>
+  </div>
+  <div class="liga-field">
+    <label>Entrenador (opcional)</label>
+    <input type="text" [(ngModel)]="form.entrenador" placeholder="Nombre del entrenador" />
+  </div>
+  <p class="liga-error" *ngIf="error">{{ error }}</p>
+  <button class="liga-btn" [disabled]="guardando" (click)="guardar()">
+    {{ guardando ? 'Guardando...' : 'Guardar equipo' }}
+  </button>
+</div>
+
+<div class="liga-tablewrap">
+  <div class="liga-loading" *ngIf="cargando">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
+
+  <table class="liga-table" *ngIf="!cargando">
+    <thead>
+      <tr>
+        <th>Equipo</th>
+        <th>Categoría</th>
+        <th>Entrenador</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let equipo of equipos">
+        <td>{{ equipo.nombre }}</td>
+        <td><span class="liga-badge">{{ equipo.categoria_nombre }}</span></td>
+        <td>{{ equipo.entrenador || '—' }}</td>
+        <td>
+          <button class="liga-link-btn liga-link-danger" (click)="eliminar(equipo)">
+            Eliminar
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="equipos.length === 0">
+        <td colspan="4" class="liga-empty">Todavía no hay equipos registrados.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

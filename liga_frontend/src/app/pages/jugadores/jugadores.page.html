@@ -1,0 +1,206 @@
+<header class="liga-header">
+  <h1 class="liga-display">Jugadores</h1>
+
+  <button class="liga-btn" (click)="abrirModalNuevoJugador()">
+    <ion-icon name="add-outline"></ion-icon>
+    Nuevo jugador
+  </button>
+</header>
+
+<div class="liga-search">
+  <ion-icon name="search-outline"></ion-icon>
+
+  <input
+    type="text"
+    placeholder="Buscar por nombre o ID escolar..."
+    [(ngModel)]="terminoBusqueda"
+    (ngModelChange)="buscarJugadores($event)"
+  />
+</div>
+
+<section class="liga-stats">
+  <div class="liga-stat">
+    <span>Total jugadores</span>
+    <b class="liga-display">{{ totalJugadores }}</b>
+  </div>
+
+  <div class="liga-stat">
+    <span>Categorías</span>
+    <b class="liga-display">{{ categorias.length }}</b>
+  </div>
+
+  <div class="liga-stat">
+    <span>Equipos representados (en esta página)</span>
+    <b class="liga-display">{{ totalEquipos }}</b>
+  </div>
+</section>
+
+<div class="liga-tabs">
+  <div
+    class="liga-tab"
+    [class.active]="categoriaSeleccionada === null"
+    (click)="seleccionarCategoria(null)"
+  >
+    Todas
+  </div>
+
+  <div
+    class="liga-tab"
+    *ngFor="let cat of categorias"
+    [class.active]="categoriaSeleccionada === cat.id"
+    (click)="seleccionarCategoria(cat.id)"
+  >
+    Categoría {{ cat.nombre }}
+  </div>
+</div>
+
+<div class="liga-tablewrap">
+
+  <div class="liga-loading" *ngIf="cargando">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
+
+  <table class="liga-table" *ngIf="!cargando">
+
+    <thead>
+      <tr>
+        <th>ID escolar</th>
+        <th>Jugador</th>
+        <th>Equipo</th>
+        <th>Categoría</th>
+        <th>Fecha nac.</th>
+        <th>Edad</th>
+        <th>Estado</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr
+        *ngFor="let jugador of jugadoresFiltrados"
+        [class.liga-inactivo]="!jugador.activo"
+      >
+        <td>{{ jugador.id_escolar || '—' }}</td>
+        <td>
+          <div
+            class="liga-name liga-name-link"
+            [routerLink]="['/jugadores', jugador.id]"
+          >
+            <div class="liga-av">
+              {{ iniciales(jugador.nombre_completo) }}
+            </div>
+
+            {{ jugador.nombre_completo }}
+          </div>
+        </td>
+
+        <td>
+          {{ jugador.equipo_nombre || 'Sin equipo' }}
+        </td>
+
+        <td>
+          <span class="liga-badge">
+            {{ jugador.categoria_nombre }}
+          </span>
+        </td>
+
+        <td>
+          {{ jugador.fecha_nacimiento | date: 'dd/MM/yy' }}
+        </td>
+
+        <td>
+          {{ jugador.edad }} años
+        </td>
+
+        <td>
+          <span
+            class="liga-status"
+            [class.liga-status-off]="!jugador.activo"
+          >
+            {{ jugador.activo ? 'Activo' : 'De baja' }}
+          </span>
+        </td>
+
+        <td>
+          <button
+            class="liga-link-btn"
+            (click)="alternarBaja(jugador)"
+          >
+            {{ jugador.activo ? 'Dar de baja' : 'Reactivar' }}
+          </button>
+        </td>
+
+        <td>
+          <button
+            class="liga-link-btn liga-link-danger"
+            (click)="eliminarJugador(jugador)"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+
+      <tr *ngIf="jugadoresFiltrados.length === 0">
+        <td colspan="9" class="liga-empty">
+          {{
+            terminoBusqueda
+              ? 'Ningún jugador coincide con la búsqueda.'
+              : 'No hay jugadores en esta categoría todavía.'
+          }}
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div
+    class="liga-pager"
+    *ngIf="!cargando && totalPaginas > 1"
+  >
+
+    <button
+      class="liga-pager-btn"
+      [disabled]="paginaActual === 1"
+      (click)="primeraPagina()"
+    >
+      <ion-icon name="play-skip-back-outline"></ion-icon>
+    </button>
+
+    <button
+      class="liga-pager-btn"
+      [disabled]="paginaActual === 1"
+      (click)="paginaAnterior()"
+    >
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </button>
+
+    <button
+      class="liga-pager-btn liga-pager-num"
+      *ngFor="let numero of numerosPagina"
+      [class.active]="numero === paginaActual"
+      (click)="irAPagina(numero)"
+    >
+      {{ numero }}
+    </button>
+
+    <button
+      class="liga-pager-btn"
+      [disabled]="paginaActual === totalPaginas"
+      (click)="paginaSiguiente()"
+    >
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </button>
+
+    <button
+      class="liga-pager-btn"
+      [disabled]="paginaActual === totalPaginas"
+      (click)="ultimaPagina()"
+    >
+      <ion-icon name="play-skip-forward-outline"></ion-icon>
+    </button>
+
+  </div>
+
+</div>

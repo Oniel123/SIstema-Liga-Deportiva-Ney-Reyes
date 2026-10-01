@@ -1,0 +1,144 @@
+.liga-back {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  padding: 0;
+}
+
+.liga-subtitle {
+  margin: 5px 0 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.liga-builder-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.liga-panel {
+  padding: 18px 20px;
+}
+
+.liga-panel-title {
+  font-size: 15px;
+  margin: 0 0 14px;
+  color: var(--liga-navy);
+}
+
+.liga-error {
+  color: var(--liga-red);
+  font-size: 13px;
+  margin: -4px 0 12px;
+}
+
+.liga-help {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #777;
+  margin: -5px 0 14px;
+}
+
+.liga-inline-add {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  select {
+    flex: 1;
+    font-family: var(--liga-font-body);
+    font-size: 14px;
+    padding: 9px 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+  }
+}
+
+.listado-actual {
+  margin-bottom: 16px;
+}
+
+.liga-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+}
+
+.liga-section-header .liga-panel-title {
+  margin-bottom: 2px;
+}
+
+.liga-count {
+  color: #777;
+  font-size: 12px;
+}
+
+.selector-jugadores {
+  margin-bottom: 20px;
+}
+
+.selector-filtros {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.selector-filtros .liga-search {
+  margin-bottom: 0;
+  max-width: none;
+  flex: 1;
+}
+
+.selector-filtros select {
+  width: 220px;
+  font-family: var(--liga-font-body);
+  font-size: 13.5px;
+  padding: 9px 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.selector-loading {
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+}
+
+.liga-table .liga-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.liga-table .liga-link-btn:disabled {
+  color: #888;
+  cursor: default;
+}
+
+@media (max-width: 900px) {
+  .liga-builder-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .selector-filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .selector-filtros select {
+    width: 100%;
+  }
+}

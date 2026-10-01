@@ -1,0 +1,285 @@
+body {
+  font-family: var(--liga-font-body);
+}
+
+h1, h2, h3, .liga-display {
+  font-family: var(--liga-font-display);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.liga-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--liga-navy-tint);
+  color: var(--liga-navy-text);
+  display: inline-block;
+}
+
+.liga-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+
+  h1 {
+    font-size: 22px;
+    margin: 0;
+  }
+}
+
+.liga-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 9px 12px;
+  margin-bottom: 18px;
+  max-width: 320px;
+  color: #999;
+
+  ion-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    font-family: var(--liga-font-body);
+    font-size: 13.5px;
+    color: var(--text-primary, #222);
+    width: 100%;
+    background: transparent;
+  }
+}
+
+.liga-btn {
+  font-family: var(--liga-font-display);
+  font-size: 13px;
+  background: var(--liga-red);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.liga-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.liga-stat {
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px 16px;
+
+  span {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  b {
+    font-size: 24px;
+    color: var(--liga-navy);
+  }
+}
+
+.liga-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.liga-tab {
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+
+  &.active {
+    background: var(--liga-navy);
+    color: #fff;
+  }
+}
+
+.liga-tablewrap {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.liga-loading {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+table.liga-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+
+  thead th {
+    text-align: left;
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+    padding: 10px 14px;
+    border-bottom: 1px solid #eee;
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f2f2f2;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.liga-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.liga-name-link {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.liga-av {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--liga-navy-tint);
+  color: var(--liga-navy-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--liga-font-display);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.liga-empty {
+  text-align: center;
+  color: #888;
+  padding: 24px 0 !important;
+}
+
+.liga-inactivo {
+  opacity: 0.5;
+}
+
+.liga-status {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: #E6F7EC;
+  color: #1E7A3D;
+}
+
+.liga-status-off {
+  background: #F3F0EA;
+  color: #8A8578;
+}
+
+.liga-link-btn {
+  background: none;
+  border: none;
+  color: var(--liga-red);
+  font-size: 12.5px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.liga-link-danger {
+  color: #8A8578;
+
+  &:hover {
+    color: var(--liga-red);
+  }
+}
+
+.liga-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+
+  label {
+    font-size: 12px;
+    color: #666;
+  }
+
+  input, select {
+    font-family: var(--liga-font-body);
+    font-size: 14px;
+    padding: 9px 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+  }
+}
+
+.liga-pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 0;
+  border-top: 1px solid #f2f2f2;
+}
+
+.liga-pager-btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--liga-navy);
+  font-family: var(--liga-font-body);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 16px;
+  }
+
+  &:hover:not(:disabled):not(.active) {
+    background: var(--liga-navy-tint);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+}
+
+.liga-pager-num.active {
+  background: var(--liga-navy);
+  color: #fff;
+  font-weight: 600;
+}

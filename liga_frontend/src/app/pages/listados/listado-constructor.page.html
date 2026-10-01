@@ -1,0 +1,216 @@
+<button class="liga-back" (click)="volver()">
+  <ion-icon name="arrow-back-outline"></ion-icon>
+  Listados
+</button>
+
+<div class="liga-loading" *ngIf="cargando">
+  <ion-spinner name="dots"></ion-spinner>
+</div>
+
+<ng-container *ngIf="!cargando && listado">
+  <header class="liga-header">
+    <div>
+      <h1 class="liga-display">Constructor de listado</h1>
+      <p class="liga-subtitle">Personaliza los jugadores que participarán en este torneo.</p>
+    </div>
+
+    <button class="liga-btn" (click)="imprimir()">
+      <ion-icon name="download-outline"></ion-icon>
+      Imprimir listado
+    </button>
+  </header>
+
+  <div class="liga-builder-grid">
+    <section class="liga-tablewrap liga-panel">
+      <h3 class="liga-display liga-panel-title">Datos del listado</h3>
+
+      <div class="liga-field">
+        <label>Nombre del listado</label>
+        <input type="text" [(ngModel)]="nombreEditado" placeholder="Ej: Torneo 9-10" />
+      </div>
+
+      <div class="liga-field">
+        <label>Categoría principal (opcional)</label>
+        <select [(ngModel)]="categoriaPrincipalEditada">
+          <option [ngValue]="null">Sin categoría principal</option>
+          <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+            Categoría {{ cat.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <p class="liga-error" *ngIf="error">{{ error }}</p>
+
+      <button class="liga-btn" [disabled]="guardando" (click)="guardarDatosListado()">
+        {{ guardando ? 'Guardando...' : 'Guardar datos' }}
+      </button>
+    </section>
+
+    <section class="liga-tablewrap liga-panel">
+      <h3 class="liga-display liga-panel-title">Agregar una categoría completa</h3>
+      <p class="liga-help">
+        Agrega todos los jugadores activos de una categoría de una sola vez.
+        Los jugadores que ya estén en el listado no se duplicarán.
+      </p>
+
+      <div class="liga-inline-add">
+        <select [(ngModel)]="categoriaAgregar">
+          <option [ngValue]="null">Selecciona una categoría</option>
+          <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+            Categoría {{ cat.nombre }}
+          </option>
+        </select>
+
+        <button class="liga-btn" [disabled]="!categoriaAgregar" (click)="agregarCategoria()">
+          <ion-icon name="add-outline"></ion-icon>
+          Agregar categoría
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <section class="liga-tablewrap liga-panel listado-actual">
+    <div class="liga-section-header">
+      <div>
+        <h3 class="liga-display liga-panel-title">Jugadores del listado</h3>
+        <span class="liga-count">{{ listado.items.length }} jugadores</span>
+      </div>
+
+      <button
+        class="liga-link-btn liga-link-danger"
+        [disabled]="!listado.items.length"
+        (click)="vaciarListado()"
+      >
+        <ion-icon name="trash-outline"></ion-icon>
+        Eliminar todos
+      </button>
+    </div>
+
+    <table class="liga-table">
+      <thead>
+        <tr>
+          <th>N°</th>
+          <th>ID escolar</th>
+          <th>Jugador</th>
+          <th>Categoría</th>
+          <th>Equipo</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listado.items; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.jugador.id_escolar || '—' }}</td>
+          <td>{{ item.jugador.nombre_completo }}</td>
+          <td><span class="liga-badge">{{ item.jugador.categoria_nombre }}</span></td>
+          <td>{{ item.jugador.equipo_nombre || 'Sin equipo' }}</td>
+          <td>
+            <button class="liga-link-btn liga-link-danger" (click)="eliminarJugador(item.jugador)">
+              <ion-icon name="trash-outline"></ion-icon>
+              Eliminar
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="listado.items.length === 0">
+          <td colspan="6" class="liga-empty">
+            El listado todavía está vacío. Puedes agregar una categoría completa o jugadores individuales.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="liga-tablewrap liga-panel selector-jugadores">
+    <div class="liga-section-header">
+      <div>
+        <h3 class="liga-display liga-panel-title">Añadir jugadores individualmente</h3>
+        <p class="liga-help">Busca por nombre o ID escolar y agrega jugadores de cualquier categoría.</p>
+      </div>
+    </div>
+
+    <div class="selector-filtros">
+      <div class="liga-search">
+        <ion-icon name="search-outline"></ion-icon>
+        <input
+          type="text"
+          placeholder="Buscar por nombre o ID escolar..."
+          [(ngModel)]="terminoBusqueda"
+          (ngModelChange)="cambiarBusqueda($event)"
+        />
+      </div>
+
+      <select [(ngModel)]="categoriaFiltro" (ngModelChange)="cambiarCategoriaFiltro()">
+        <option [ngValue]="null">Todas las categorías</option>
+        <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+          Categoría {{ cat.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <div class="selector-loading" *ngIf="cargandoDisponibles">
+      <ion-spinner name="dots"></ion-spinner>
+    </div>
+
+    <table class="liga-table" *ngIf="!cargandoDisponibles">
+      <thead>
+        <tr>
+          <th>ID escolar</th>
+          <th>Jugador</th>
+          <th>Categoría</th>
+          <th>Equipo</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let jugador of jugadoresDisponibles">
+          <td>{{ jugador.id_escolar || '—' }}</td>
+          <td>{{ jugador.nombre_completo }}</td>
+          <td><span class="liga-badge">{{ jugador.categoria_nombre }}</span></td>
+          <td>{{ jugador.equipo_nombre || 'Sin equipo' }}</td>
+          <td>
+            <button
+              class="liga-link-btn"
+              [disabled]="estaEnListado(jugador.id)"
+              (click)="agregarJugador(jugador)"
+            >
+              <ion-icon [name]="estaEnListado(jugador.id) ? 'checkmark-circle-outline' : 'add-outline'"></ion-icon>
+              {{ estaEnListado(jugador.id) ? 'Ya agregado' : 'Agregar' }}
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="jugadoresDisponibles.length === 0">
+          <td colspan="5" class="liga-empty">
+            No se encontraron jugadores.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="liga-pager" *ngIf="!cargandoDisponibles && totalPaginasDisponibles > 1">
+      <button class="liga-pager-btn" [disabled]="paginaActual === 1" (click)="irAPagina(1)">
+        <ion-icon name="play-skip-back-outline"></ion-icon>
+      </button>
+      <button class="liga-pager-btn" [disabled]="paginaActual === 1" (click)="irAPagina(paginaActual - 1)">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
+
+      <button
+        class="liga-pager-btn liga-pager-num"
+        *ngFor="let numero of numerosPaginaDisponibles"
+        [class.active]="numero === paginaActual"
+        (click)="irAPagina(numero)"
+      >
+        {{ numero }}
+      </button>
+
+      <button class="liga-pager-btn" [disabled]="paginaActual === totalPaginasDisponibles" (click)="irAPagina(paginaActual + 1)">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+      <button class="liga-pager-btn" [disabled]="paginaActual === totalPaginasDisponibles" (click)="irAPagina(totalPaginasDisponibles)">
+        <ion-icon name="play-skip-forward-outline"></ion-icon>
+      </button>
+    </div>
+  </section>
+</ng-container>

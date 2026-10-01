@@ -1,0 +1,7 @@
+{
+  "name": "liga-ney-reyes",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

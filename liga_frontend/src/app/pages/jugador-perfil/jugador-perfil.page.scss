@@ -1,0 +1,101 @@
+.liga-back {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  padding: 0;
+}
+
+.liga-error {
+  color: var(--liga-red);
+  font-size: 13px;
+  margin: -4px 0 12px;
+}
+
+.liga-profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.liga-panel {
+  padding: 18px 20px;
+}
+
+.liga-panel-title {
+  font-size: 15px;
+  margin: 0 0 14px;
+  color: var(--liga-navy);
+}
+
+.liga-upload {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--liga-font-display);
+  font-size: 13px;
+  background: var(--liga-navy);
+  color: #fff;
+  padding: 9px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.liga-file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.liga-file-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f2f2f2;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.liga-file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.liga-file-name {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.liga-file-date {
+  font-size: 11px;
+  color: #999;
+}
+
+.liga-file-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+
+  a.liga-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+  }
+}

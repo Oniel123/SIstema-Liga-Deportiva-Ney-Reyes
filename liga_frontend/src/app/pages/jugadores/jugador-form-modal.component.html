@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="liga-display">Nuevo jugador</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="liga-field">
+    <label>ID escolar</label>
+    <input type="text" [(ngModel)]="form.id_escolar" placeholder="ID" />
+  </div>
+
+  <div class="liga-field">
+    <label>Nombre completo</label>
+    <input type="text" [(ngModel)]="form.nombre_completo" placeholder="Nombre y apellido" />
+  </div>
+
+  <div class="liga-field">
+    <label>Fecha de nacimiento</label>
+    <input type="date" [(ngModel)]="form.fecha_nacimiento" />     
+  </div>
+
+  <div class="liga-field">
+    <label>Categoría</label>
+    <select [(ngModel)]="form.categoria">
+      <option [ngValue]="null">Selecciona una categoría</option>
+      <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+        Categoría {{ cat.nombre }}
+      </option>
+    </select>
+  </div>
+
+  <div class="liga-field">
+    <label>Equipo (opcional)</label>
+    <select [(ngModel)]="form.equipo">
+      <option [ngValue]="null">Sin equipo</option>
+      <option *ngFor="let eq of equipos" [ngValue]="eq.id">{{ eq.nombre }}</option>
+    </select>
+  </div>
+
+  <div class="liga-field">
+    <label>Número de camiseta (opcional)</label>
+    <input type="number" [(ngModel)]="form.numero_camiseta" min="0" />
+  </div>
+
+  <p class="liga-error" *ngIf="error">{{ error }}</p>
+
+  <button class="liga-btn liga-btn-block" [disabled]="guardando" (click)="guardar()">
+    {{ guardando ? 'Guardando...' : 'Guardar jugador' }}
+  </button>
+</ion-content>

@@ -1,0 +1,33 @@
+<ion-content [fullscreen]="true">
+  <div class="liga-shell">
+
+    <aside class="liga-side">
+      <p class="liga-brand liga-display">
+        Liga Ney Reyes
+        <span>Panel administrativo</span>
+      </p>
+      <nav class="liga-nav">
+        <a class="liga-navitem" routerLink="/jugadores" routerLinkActive="active">
+          <ion-icon name="people-outline"></ion-icon> Jugadores
+        </a>
+        <a class="liga-navitem" routerLink="/equipos" routerLinkActive="active">
+          <ion-icon name="shirt-outline"></ion-icon> Equipos
+        </a>
+        <a class="liga-navitem" routerLink="/categorias" routerLinkActive="active">
+          <ion-icon name="grid-outline"></ion-icon> Categorías
+        </a>
+        <a class="liga-navitem" routerLink="/listados" routerLinkActive="active">
+          <ion-icon name="clipboard-outline"></ion-icon> Listados
+        </a>
+        <a class="liga-navitem" (click)="abrirOpcionesPdf()">
+          <ion-icon name="download-outline"></ion-icon> Reportes PDF
+        </a>
+      </nav>
+    </aside>
+
+    <main class="liga-main">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+</ion-content>

@@ -1,0 +1,18 @@
+.liga-formcard {
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.liga-error {
+  color: var(--liga-red);
+  font-size: 13px;
+  margin: -4px 0 12px;
+}
+
+.liga-swatch {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}

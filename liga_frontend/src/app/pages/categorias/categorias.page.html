@@ -1,0 +1,66 @@
+<header class="liga-header">
+  <h1 class="liga-display">Categorías</h1>
+  <button class="liga-btn" (click)="mostrarForm ? cancelar() : abrirNueva()">
+    <ion-icon [name]="mostrarForm ? 'close-outline' : 'add-outline'"></ion-icon>
+    {{ mostrarForm ? 'Cancelar' : 'Nueva categoría' }}
+  </button>
+</header>
+
+<div class="liga-tablewrap liga-formcard" *ngIf="mostrarForm">
+  <h3 class="liga-display">{{ categoriaEditando ? 'Editar categoría' : 'Nueva categoría' }}</h3>
+
+  <div class="liga-field">
+    <label>Nombre (ej: 12-13)</label>
+    <input type="text" [(ngModel)]="form.nombre" placeholder="12-13" />
+  </div>
+  <div class="liga-field">
+    <label>Edad mínima</label>
+    <input type="number" [(ngModel)]="form.edad_min" min="0" />
+  </div>
+  <div class="liga-field">
+    <label>Edad máxima</label>
+    <input type="number" [(ngModel)]="form.edad_max" min="0" />
+  </div>
+  <div class="liga-field">
+    <label>Color del encabezado (PDF y tabla)</label>
+    <input type="color" [(ngModel)]="form.color_principal" />
+  </div>
+  <p class="liga-error" *ngIf="error">{{ error }}</p>
+  <button class="liga-btn" [disabled]="guardando" (click)="guardar()">
+    {{ guardando ? 'Guardando...' : 'Guardar categoría' }}
+  </button>
+</div>
+
+<div class="liga-tablewrap">
+  <div class="liga-loading" *ngIf="cargando">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
+
+  <table class="liga-table" *ngIf="!cargando">
+    <thead>
+      <tr>
+        <th>Categoría</th>
+        <th>Rango de edad</th>
+        <th>Color</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cat of categorias">
+        <td>{{ cat.nombre }}</td>
+        <td>{{ cat.edad_min }} - {{ cat.edad_max }} años</td>
+        <td><span class="liga-swatch" [style.background]="cat.color_principal"></span></td>
+        <td>
+          <button class="liga-link-btn" (click)="editar(cat)">Editar</button>
+        </td>
+        <td>
+          <button class="liga-link-btn liga-link-danger" (click)="eliminar(cat)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="categorias.length === 0">
+        <td colspan="5" class="liga-empty">Todavía no hay categorías registradas.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

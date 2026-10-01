@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<style>
+    @page {
+        size: A4;
+        margin: 1.8cm 2.2cm;
+    }
+    body {
+        font-family: "Helvetica", "Arial", sans-serif;
+        color: #222;
+    }
+    .header {
+        text-align: center;
+        margin-bottom: 8px;
+    }
+    .header img {
+        height: 85px;
+    }
+    .header h1 {
+        color: #C00000;
+        font-size: 22px;
+        margin: 6px 0 2px;
+    }
+    .header p {
+        font-size: 13px;
+        font-weight: bold;
+        color: #333;
+        margin: 0 0 18px;
+    }
+    .info {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+    }
+    thead th {
+        color: #fff;
+        text-align: left;
+        padding: 8px 8px;
+        font-size: 12px;
+    }
+    tbody td {
+        padding: 7px 8px;
+        border-bottom: 0.5px solid #ccc;
+    }
+    tbody tr.fila-par {
+        background-color: #F2F4F8;
+    }
+    td.num, th.num {
+        width: 34px;
+        text-align: center;
+    }
+    td.id-escolar, th.id-escolar {
+        width: 85px;
+    }
+    td.edad, th.edad {
+        width: 65px;
+        text-align: center;
+    }
+    td.categoria, th.categoria {
+        width: 70px;
+    }
+    td.nombre {
+        color: #1F4E79;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <img src="{% static 'liga/logo.png' %}" alt="Logo">
+    <h1>LIGA DEPORTIVA NEY REYES</h1>
+    <p>{{ listado.nombre }}</p>
+</div>
+
+<div class="info">
+    {% if listado.categoria_principal %}
+        Categoría principal: <strong>{{ listado.categoria_principal.nombre }}</strong><br>
+    {% endif %}
+    Total de jugadores: <strong>{{ listado.jugadores.count }}</strong>
+</div>
+
+<table>
+    <thead>
+        <tr style="background-color: #1F3864">
+            <th class="num">N°</th>
+            <th class="id-escolar">ID escolar</th>
+            <th>Nombre del jugador</th>
+            <th class="categoria">Categoría</th>
+            <th class="edad">Fecha Nac.</th>
+            <th class="edad">Edad</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in listado.items.all %}
+        <tr{% if forloop.counter|divisibleby:2 %} class="fila-par"{% endif %}>
+            <td class="num">{{ forloop.counter|stringformat:"02d" }}</td>
+            <td class="id-escolar">{{ item.jugador.id_escolar|default:"—" }}</td>
+            <td class="nombre">{{ item.jugador.nombre_completo }}</td>
+            <td class="categoria">{{ item.jugador.categoria.nombre }}</td>
+            <td class="edad">{{ item.jugador.fecha_nacimiento|date:"d/m/y" }}</td>
+            <td class="edad">{{ item.jugador.edad }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

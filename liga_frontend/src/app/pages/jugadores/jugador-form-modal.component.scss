@@ -1,0 +1,14 @@
+.liga-error {
+  color: var(--liga-red);
+  font-size: 13px;
+  margin: -4px 0 14px;
+}
+
+.liga-btn-block {
+  width: 100%;
+  justify-content: center;
+
+  &[disabled] {
+    opacity: 0.6;
+  }
+}

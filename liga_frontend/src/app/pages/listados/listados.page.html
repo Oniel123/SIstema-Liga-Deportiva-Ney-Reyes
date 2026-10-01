@@ -1,0 +1,83 @@
+<header class="liga-header">
+  <h1 class="liga-display">Listados de torneo</h1>
+  <button class="liga-btn" (click)="mostrarForm ? cancelar() : abrirNuevo()">
+    <ion-icon [name]="mostrarForm ? 'close-outline' : 'add-outline'"></ion-icon>
+    {{ mostrarForm ? 'Cancelar' : 'Nuevo listado' }}
+  </button>
+</header>
+
+<div class="liga-tablewrap liga-formcard" *ngIf="mostrarForm">
+  <h3 class="liga-display">Nuevo listado</h3>
+
+  <div class="liga-field">
+    <label>Nombre del listado</label>
+    <input
+      type="text"
+      [(ngModel)]="form.nombre"
+      placeholder="Ej: Torneo 9-10"
+    />
+  </div>
+
+  <div class="liga-field">
+    <label>Categoría principal (opcional)</label>
+    <select [(ngModel)]="form.categoria_principal">
+      <option [ngValue]="null">Sin categoría principal</option>
+      <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+        Categoría {{ cat.nombre }}
+      </option>
+    </select>
+  </div>
+
+  <p class="liga-error" *ngIf="error">{{ error }}</p>
+
+  <button class="liga-btn" [disabled]="guardando" (click)="guardar()">
+    {{ guardando ? 'Creando...' : 'Crear listado' }}
+  </button>
+</div>
+
+<div class="liga-tablewrap">
+  <div class="liga-loading" *ngIf="cargando">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
+
+  <table class="liga-table" *ngIf="!cargando">
+    <thead>
+      <tr>
+        <th>Listado</th>
+        <th>Categoría principal</th>
+        <th>Jugadores</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let listado of listados">
+        <td><strong>{{ listado.nombre }}</strong></td>
+        <td>{{ listado.categoria_principal_nombre || '—' }}</td>
+        <td>{{ listado.jugadores_count }}</td>
+        <td>
+          <button class="liga-link-btn" (click)="abrir(listado)">
+            <ion-icon name="create-outline"></ion-icon> Abrir
+          </button>
+        </td>
+        <td>
+          <button class="liga-link-btn" (click)="imprimir(listado)">
+            <ion-icon name="download-outline"></ion-icon> Imprimir
+          </button>
+        </td>
+        <td>
+          <button class="liga-link-btn liga-link-danger" (click)="eliminar(listado)">
+            <ion-icon name="trash-outline"></ion-icon> Eliminar
+          </button>
+        </td>
+      </tr>
+
+      <tr *ngIf="listados.length === 0">
+        <td colspan="6" class="liga-empty">
+          Todavía no hay listados creados.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,101 @@
+<button class="liga-back" (click)="volver()">
+  <ion-icon name="chevron-back-outline"></ion-icon> Jugadores
+</button>
+
+<div class="liga-loading" *ngIf="cargando">
+  <ion-spinner name="dots"></ion-spinner>
+</div>
+
+<ng-container *ngIf="!cargando && jugador">
+  <header class="liga-header">
+    <h1 class="liga-display">{{ jugador.nombre_completo }}</h1>
+    <span class="liga-status" [class.liga-status-off]="!jugador.activo">
+      {{ jugador.activo ? 'Activo' : 'De baja' }}
+    </span>
+  </header>
+
+  <div class="liga-profile-grid">
+    <!-- Datos del jugador -->
+    <div class="liga-tablewrap liga-panel">
+      <h3 class="liga-display liga-panel-title">Datos del jugador</h3>
+
+      <div class="liga-field">
+        <label>ID escolar</label>
+        <input type="text" [(ngModel)]="form.id_escolar" />
+      </div>
+
+      <div class="liga-field">
+        <label>Nombre completo</label>
+        <input type="text" [(ngModel)]="form.nombre_completo" />
+      </div>
+
+      <div class="liga-field">
+        <label>Fecha de nacimiento</label>
+        <input type="date" [(ngModel)]="form.fecha_nacimiento" />
+      </div>
+
+      <div class="liga-field">
+        <label>Categoría</label>
+        <select [(ngModel)]="form.categoria">
+          <option [ngValue]="null">Selecciona una categoría</option>
+          <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+            Categoría {{ cat.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="liga-field">
+        <label>Equipo</label>
+        <select [(ngModel)]="form.equipo">
+          <option [ngValue]="null">Sin equipo</option>
+          <option *ngFor="let eq of equiposDeCategoria(form.categoria)" [ngValue]="eq.id">
+            {{ eq.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="liga-field">
+        <label>Número de camiseta</label>
+        <input type="number" [(ngModel)]="form.numero_camiseta" min="0" />
+      </div>
+
+      <p class="liga-error" *ngIf="error">{{ error }}</p>
+
+      <button class="liga-btn" [disabled]="guardando" (click)="guardar()">
+        <ion-icon name="save-outline"></ion-icon>
+        {{ guardando ? 'Guardando...' : 'Guardar cambios' }}
+      </button>
+    </div>
+
+    <!-- Documentos -->
+    <div class="liga-tablewrap liga-panel">
+      <h3 class="liga-display liga-panel-title">Documentos</h3>
+
+      <label class="liga-upload">
+        <ion-icon name="cloud-upload-outline"></ion-icon>
+        {{ subiendo ? 'Subiendo...' : 'Subir archivo' }}
+        <input type="file" (change)="onArchivoSeleccionado($event)" [disabled]="subiendo" hidden />
+      </label>
+
+      <div class="liga-file-list">
+        <div class="liga-file-row" *ngFor="let archivo of archivos">
+          <div class="liga-file-info">
+            <span class="liga-file-name">{{ archivo.nombre_archivo }}</span>
+            <span class="liga-file-date">{{ archivo.subido_en | date: 'dd/MM/yy HH:mm' }}</span>
+          </div>
+          <div class="liga-file-actions">
+            <a class="liga-link-btn" [href]="archivo.url" target="_blank" download>
+              <ion-icon name="download-outline"></ion-icon> Descargar
+            </a>
+            <button class="liga-link-btn liga-link-danger" (click)="eliminarArchivo(archivo)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+        <p class="liga-empty" *ngIf="archivos.length === 0">
+          Todavía no hay archivos subidos para este jugador.
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-container>
